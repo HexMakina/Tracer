@@ -91,13 +91,6 @@ class Tracer implements TracerInterface
 
     public function traces($options = [])
     {
-
-        if (!isset($options['limit']) || empty($options['limit'])) {
-            $limit = 1000;
-        } else {
-            $limit = intval($options['limit']);
-        }
-
         // TODO SELECT field order can't change without adapting the result parsing code (foreach $res)
         $select_fields = ['SUBSTR(query_on, 1, 10) AS working_day', 'query_table', 'query_id',  'GROUP_CONCAT(DISTINCT query_type, "-", query_by) as action_by'];
         $q = $this->tracing_table()->select($select_fields);
@@ -109,33 +102,40 @@ class Tracer implements TracerInterface
         $q->group_by('query_table');
         $q->group_by('query_id');
         $q->having("action_by NOT LIKE '%D%'");
+
+        $limit = 1000;
+        if(!empty($options['limit']))
+        {
+          $limit = intval($options['limit']);
+          unset($options['limit']);
+        }
         $q->limit($limit);
 
-        foreach ($options as $o => $v) {
-            if (preg_match('/id/', $o)) {
-                $q->aw_eq('query_id', $v);
-            } elseif (preg_match('/tables/', $o)) {
-                $q->aw_string_in('query_table', is_array($v) ? $v : [$v]);
-            } elseif (preg_match('/table/', $o)) {
-                $q->aw_eq('query_table', $v);
-            } elseif (preg_match('/(type|action)/', $o)) {
-                $q->aw_string_in('query_type', is_array($v) ? $v : [$v]);
-            } elseif (preg_match('/(date|query_on)/', $o)) {
-                $q->aw_like('query_on', "$v%");
-            } elseif (preg_match('/(oper|user|query_by)/', $o)) {
-                $q->aw_eq('query_by', $v);
-            }
-        }
-
-        // vd($q);
-        try {
-            $q->run();
-        } catch (\Exception $e) {
-            return false;
-        }
-
+        $this->filter_by_options($q, $options);
         $res = $q->ret_num(); // ret num to list()
-        // ddt($res);
+        return $this->organise_traces($res);
+    }
+
+    private function filter_by_options($q, $options)
+    {
+      foreach ($options as $o => $v) {
+          if (preg_match('/id/', $o)) {
+              $q->aw_eq('query_id', $v);
+          } elseif (preg_match('/tables/', $o)) {
+              $q->aw_string_in('query_table', is_array($v) ? $v : [$v]);
+          } elseif (preg_match('/table/', $o)) {
+              $q->aw_eq('query_table', $v);
+          } elseif (preg_match('/(type|action)/', $o)) {
+              $q->aw_string_in('query_type', is_array($v) ? $v : [$v]);
+          } elseif (preg_match('/(date|query_on)/', $o)) {
+              $q->aw_like('query_on', "$v%");
+          } elseif (preg_match('/(oper|user|query_by)/', $o)) {
+              $q->aw_eq('query_by', $v);
+          }
+      }
+    }
+    private function organise_traces($res)
+    {
         $ret = [];
 
         foreach ($res as $r) {
