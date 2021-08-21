@@ -1,0 +1,24 @@
+{
+    "name": "hexmakina/tracer",
+    "description": "SQL query logger",
+    "type": "package",
+    "require": {
+        "php": ">=7.0",
+        "hexmakina/crudites": "0.0.*",
+        "hexmakina/tight-orm": "0.0.*"
+    },
+    "license": "mit",
+    "authors": [
+        {
+            "name": "HexMakina",
+            "email": "touch@hexmakina.be",
+            "homepage": "https://hexmakina.be"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "HexMakina\\Tracer\\": "/"
+        }
+    }
+}
