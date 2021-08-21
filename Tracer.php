@@ -9,7 +9,6 @@ namespace HexMakina\Tracer;
 
 use HexMakina\Crudites\Interfaces\TableManipulationInterface;
 use HexMakina\Crudites\Interfaces\QueryInterface;
-use HexMakina\TightORM\Interfaces\ModelInterface;
 
 class Tracer implements TracerInterface
 {
@@ -70,23 +69,25 @@ class Tracer implements TracerInterface
     }
 
     // -- CRUD Tracking:get for one model
-    public function history_by_model(ModelInterface $m)
-    {
-        $q = $this->tracing_table()->select();
-        $q->aw_fields_eq(['query_table' => get_class($m)::table_name(), 'query_id' => $m->get_id()]);
-        $q->order_by(['query_on', 'DESC']);
-        $q->run();
-        $res = $q->ret_ass();
-
-        return $res;
-    }
+    // DEPRECATED, now traces(), Traceable Trait, TightORM
+    // public function history_by_model(ModelInterface $m)
+    // {
+    //     $q = $this->tracing_table()->select();
+    //     $q->aw_fields_eq(['query_table' => get_class($m)::table_name(), 'query_id' => $m->get_id()]);
+    //     $q->order_by(['query_on', 'DESC']);
+    //     $q->run();
+    //     $res = $q->ret_ass();
+    //
+    //     return $res;
+    // }
 
     // -- CRUD Tracking:get for many models
 
-    public function traces_by_model(ModelInterface $m)
-    {
-        return $this->traces(['id' => $m->get_id(), 'table' => get_class($m)::table_name()]);
-    }
+    // DEPRECATED, now traces_by_model(), Traceable Trait, TightORM
+    // public function traces_by_model(ModelInterface $m)
+    // {
+    //     return $this->traces(['id' => $m->get_id(), 'table' => get_class($m)::table_name()]);
+    // }
 
     public function traces($options = [])
     {
