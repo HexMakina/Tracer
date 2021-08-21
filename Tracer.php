@@ -7,7 +7,6 @@
 
 namespace HexMakina\Tracer;
 
-use HexMakina\Crudites\Interfaces\TracerInterface;
 use HexMakina\Crudites\Interfaces\TableManipulationInterface;
 use HexMakina\Crudites\Interfaces\QueryInterface;
 use HexMakina\TightORM\Interfaces\ModelInterface;
