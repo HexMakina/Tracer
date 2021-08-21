@@ -6,4 +6,7 @@ interface TraceableInterface
 {
     public function traceable(): bool;
     public function traces(): array;
+
+    public function trace();
+
 }
