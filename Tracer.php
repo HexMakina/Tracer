@@ -104,10 +104,9 @@ class Tracer implements TracerInterface
         $q->having("action_by NOT LIKE '%D%'");
 
         $limit = 1000;
-        if(!empty($options['limit']))
-        {
-          $limit = intval($options['limit']);
-          unset($options['limit']);
+        if (!empty($options['limit'])) {
+            $limit = intval($options['limit']);
+            unset($options['limit']);
         }
         $q->limit($limit);
 
@@ -118,21 +117,21 @@ class Tracer implements TracerInterface
 
     private function filter_by_options($q, $options)
     {
-      foreach ($options as $o => $v) {
-          if (preg_match('/id/', $o)) {
-              $q->aw_eq('query_id', $v);
-          } elseif (preg_match('/tables/', $o)) {
-              $q->aw_string_in('query_table', is_array($v) ? $v : [$v]);
-          } elseif (preg_match('/table/', $o)) {
-              $q->aw_eq('query_table', $v);
-          } elseif (preg_match('/(type|action)/', $o)) {
-              $q->aw_string_in('query_type', is_array($v) ? $v : [$v]);
-          } elseif (preg_match('/(date|query_on)/', $o)) {
-              $q->aw_like('query_on', "$v%");
-          } elseif (preg_match('/(oper|user|query_by)/', $o)) {
-              $q->aw_eq('query_by', $v);
-          }
-      }
+        foreach ($options as $o => $v) {
+            if (preg_match('/id/', $o)) {
+                $q->aw_eq('query_id', $v);
+            } elseif (preg_match('/tables/', $o)) {
+                $q->aw_string_in('query_table', is_array($v) ? $v : [$v]);
+            } elseif (preg_match('/table/', $o)) {
+                $q->aw_eq('query_table', $v);
+            } elseif (preg_match('/(type|action)/', $o)) {
+                $q->aw_string_in('query_type', is_array($v) ? $v : [$v]);
+            } elseif (preg_match('/(date|query_on)/', $o)) {
+                $q->aw_like('query_on', "$v%");
+            } elseif (preg_match('/(oper|user|query_by)/', $o)) {
+                $q->aw_eq('query_by', $v);
+            }
+        }
     }
     private function organise_traces($res)
     {
