@@ -2,6 +2,9 @@
 
 namespace HexMakina\Tracer;
 
+use HexMakina\Crudites\Interfaces\TableManipulationInterface;
+use HexMakina\Crudites\Interfaces\QueryInterface;
+
 interface TracerInterface
 {
     const CODE_CREATE = 'C';
