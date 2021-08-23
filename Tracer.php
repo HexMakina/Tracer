@@ -89,7 +89,7 @@ class Tracer implements TracerInterface
     //     return $this->traces(['id' => $m->get_id(), 'table' => get_class($m)::table_name()]);
     // }
 
-    public function traces($options = []) : array;
+    public function traces($options = []) : array
     {
         // TODO SELECT field order can't change without adapting the result parsing code (foreach $res)
         $select_fields = ['SUBSTR(query_on, 1, 10) AS working_day', 'query_table', 'query_id',  'GROUP_CONCAT(DISTINCT query_type, "-", query_by) as action_by'];
