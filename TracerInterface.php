@@ -15,7 +15,7 @@ interface TracerInterface
     public function tracing_table(): TableManipulationInterface;
 
     public function trace(QueryInterface $q, $operator_id, $model_id): bool;
-    public function traces() : array;
+    public function traces($options = []) : array;
 
     public function query_code($sql_statement): string;
 
