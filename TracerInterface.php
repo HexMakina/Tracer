@@ -12,12 +12,12 @@ interface TracerInterface
     public const CODE_UPDATE = 'U';
     public const CODE_DELETE = 'D';
 
-    public function tracing_table(): TableManipulationInterface;
+    public function tracingTable(): TableManipulationInterface;
 
     public function trace(QueryInterface $q, $operator_id, $model_id): bool;
     public function traces($options = []): array;
 
-    public function query_code($sql_statement): string;
+    public function queryCode($sql_statement): string;
 
     // public function history($table_name, $table_pk, $sort='DESC') : array;
 }

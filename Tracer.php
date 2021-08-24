@@ -26,12 +26,12 @@ class Tracer implements TracerInterface
         $this->tracing_table = $tracing_table;
     }
 
-    public function tracing_table(): TableManipulationInterface
+    public function tracingTable(): TableManipulationInterface
     {
         return $this->tracing_table;
     }
 
-    public function query_code($sql_statement): string
+    public function queryCode($sql_statement): string
     {
         $first_five = strtolower(substr($sql_statement, 0, 6));
 
@@ -45,25 +45,25 @@ class Tracer implements TracerInterface
     public function trace(QueryInterface $q, $operator_id, $model_id): bool
     {
         $trace = [];
-        $trace['query_type'] = $this->query_code($q->statement());
+        $trace['query_type'] = $this->queryCode($q->statement());
         $trace['query_table'] = $q->table_name();
         $trace['query_id'] = $model_id;
         $trace['query_by'] = $operator_id;
 
         try {
-            $this->tracing_table()->connection()->transact();
-            $query = $this->tracing_table()->insert($trace)->run();
+            $this->tracingTable()->connection()->transact();
+            $query = $this->tracingTable()->insert($trace)->run();
 
             // if we delete a record, we remove all traces of update
             if ($query->is_success() && $trace['query_type'] === self::CODE_DELETE) {
                 $trace['query_type'] = self::CODE_UPDATE;
                 unset($trace['query_by']);
-                $this->tracing_table()->delete($trace)->run();
+                $this->tracingTable()->delete($trace)->run();
             }
-            $this->tracing_table()->connection()->commit();
+            $this->tracingTable()->connection()->commit();
             return true;
         } catch (\Exception $e) {
-            $this->tracing_table()->connection()->rollback();
+            $this->tracingTable()->connection()->rollback();
             return false;
         }
     }
@@ -72,7 +72,7 @@ class Tracer implements TracerInterface
     // DEPRECATED, now traces(), Traceable Trait, TightORM
     // public function history_by_model(ModelInterface $m)
     // {
-    //     $q = $this->tracing_table()->select();
+    //     $q = $this->tracingTable()->select();
     //     $q->aw_fields_eq(['query_table' => get_class($m)::table_name(), 'query_id' => $m->get_id()]);
     //     $q->order_by(['query_on', 'DESC']);
     //     $q->run();
@@ -98,10 +98,10 @@ class Tracer implements TracerInterface
           'query_id',
           'GROUP_CONCAT(DISTINCT query_type, "-", query_by) as action_by'
         ];
-        $q = $this->tracing_table()->select($select_fields);
+        $q = $this->tracingTable()->select($select_fields);
         $q->order_by(['', 'working_day', 'DESC']);
-        $q->order_by([$this->tracing_table()->name(), 'query_table', 'DESC']);
-        $q->order_by([$this->tracing_table()->name(), 'query_id', 'DESC']);
+        $q->order_by([$this->tracingTable()->name(), 'query_table', 'DESC']);
+        $q->order_by([$this->tracingTable()->name(), 'query_id', 'DESC']);
 
         $q->group_by(['working_day']);
         $q->group_by('query_table');
@@ -115,12 +115,12 @@ class Tracer implements TracerInterface
         }
         $q->limit($limit);
 
-        $this->filter_by_options($q, $options);
+        $this->filter($q, $options);
         $res = $q->ret_num(); // ret num to list()
-        return $this->organise_traces($res);
+        return $this->organiseTraces($res);
     }
 
-    private function filter_by_options($q, $options)
+    private function filter($q, $options)
     {
         if (isset($options['on'])) {
             $q->aw_like('query_on', $options['on'] . '%');
@@ -142,7 +142,7 @@ class Tracer implements TracerInterface
             $q->aw_string_in('query_table', $options['tables']);
         }
     }
-    private function organise_traces($res)
+    private function organiseTraces($res)
     {
         $ret = [];
 
