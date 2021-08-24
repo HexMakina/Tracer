@@ -117,21 +117,38 @@ class Tracer implements TracerInterface
 
     private function filter_by_options($q, $options)
     {
-        foreach ($options as $o => $v) {
-            if (preg_match('/id/', $o)) {
-                $q->aw_eq('query_id', $v);
-            } elseif (preg_match('/tables/', $o)) {
-                $q->aw_string_in('query_table', is_array($v) ? $v : [$v]);
-            } elseif (preg_match('/table/', $o)) {
-                $q->aw_eq('query_table', $v);
-            } elseif (preg_match('/(type|action)/', $o)) {
-                $q->aw_string_in('query_type', is_array($v) ? $v : [$v]);
-            } elseif (preg_match('/(date|query_on)/', $o)) {
-                $q->aw_like('query_on', "$v%");
-            } elseif (preg_match('/(oper|user|query_by)/', $o)) {
-                $q->aw_eq('query_by', $v);
-            }
-        }
+      if(isset($options['on']))
+        $q->aw_like('query_on', $options['on'].'%');
+
+      if(isset($options['by']))
+        $q->aw_eq('query_by', $options['operator']);
+
+      if(isset($options['pk']))
+        $q->aw_eq('query_id', $options['pk']);
+
+      if(isset($options['table']))
+        $q->aw_eq('query_table', $options['table']);
+
+      if(isset($options['tables']))
+        $q->aw_string_in('query_table', $options['tables']);
+
+
+        //
+        // foreach ($options as $o => $v) {
+        //     if (preg_match('/id/', $o)) {
+        //         $q->aw_eq('query_id', $v);
+        //     } elseif (preg_match('/tables/', $o)) {
+        //         $q->aw_string_in('query_table', is_array($v) ? $v : [$v]);
+        //     } elseif (preg_match('/table/', $o)) {
+        //         $q->aw_eq('query_table', $v);
+        //     } elseif (preg_match('/(type|action)/', $o)) {
+        //         $q->aw_string_in('query_type', is_array($v) ? $v : [$v]);
+        //     } elseif (preg_match('/(date|query_on)/', $o)) {
+        //         $q->aw_like('query_on', "$v%");
+        //     } elseif (preg_match('/(oper|user|query_by)/', $o)) {
+        //         $q->aw_eq('query_by', $v);
+        //     }
+        // }
     }
     private function organise_traces($res)
     {
