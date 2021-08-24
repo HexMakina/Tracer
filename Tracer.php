@@ -117,7 +117,7 @@ class Tracer implements TracerInterface
 
         $this->filter($q, $options);
         $res = $q->ret_num(); // ret num to list()
-        return $this->organiseTraces($res);
+        return $this->export($res);
     }
 
     private function filter($q, $options)
@@ -142,7 +142,8 @@ class Tracer implements TracerInterface
             $q->aw_string_in('query_table', $options['tables']);
         }
     }
-    private function organiseTraces($res)
+
+    private function export($res)
     {
         $ret = [];
 
