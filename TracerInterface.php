@@ -7,15 +7,15 @@ use HexMakina\Crudites\Interfaces\QueryInterface;
 
 interface TracerInterface
 {
-    const CODE_CREATE = 'C';
-    const CODE_SELECT = 'R';
-    const CODE_UPDATE = 'U';
-    const CODE_DELETE = 'D';
+    public const CODE_CREATE = 'C';
+    public const CODE_SELECT = 'R';
+    public const CODE_UPDATE = 'U';
+    public const CODE_DELETE = 'D';
 
     public function tracing_table(): TableManipulationInterface;
 
     public function trace(QueryInterface $q, $operator_id, $model_id): bool;
-    public function traces($options = []) : array;
+    public function traces($options = []): array;
 
     public function query_code($sql_statement): string;
 
