@@ -12,13 +12,6 @@ use HexMakina\Crudites\Interfaces\QueryInterface;
 
 class Tracer implements TracerInterface
 {
-    private static $query_codes = [
-    'insert' => self::CODE_CREATE,
-    'select' => self::CODE_SELECT,
-    'update' => self::CODE_UPDATE,
-    'delete' => self::CODE_DELETE
-    ];
-
     private $tracing_table = null;
 
     public function __construct(TableManipulationInterface $tracing_table)
