@@ -31,31 +31,31 @@ class Tracer implements TracerInterface
         return $this->tracing_table;
     }
 
-    public function queryCode($sql_statement): string
-    {
-        $first_five = strtolower(substr($sql_statement, 0, 6));
+    // public function queryCode($sql_statement): string
+    // {
+    //     $first_five = strtolower(substr($sql_statement, 0, 6));
+    //
+    //     if (!isset(self::$query_codes[$first_five])) {
+    //         throw new \InvalidArgumentException('KADRO_ONLY_TRACES_CRUD');
+    //     }
+    //
+    //     return self::$query_codes[$first_five];
+    // }
 
-        if (!isset(self::$query_codes[$first_five])) {
-            throw new \InvalidArgumentException('KADRO_ONLY_TRACES_CRUD');
-        }
-
-        return self::$query_codes[$first_five];
-    }
-
-    public function trace(QueryInterface $q, $operator_id, $model_id): bool
+    public function trace(Trace $t): bool
     {
         $trace = [];
-        $trace['query_type'] = $this->queryCode($q->statement());
-        $trace['query_table'] = $q->table_name();
-        $trace['query_id'] = $model_id;
-        $trace['query_by'] = $operator_id;
+        $trace['query_type'] = $t->queryCode();
+        $trace['query_table'] = $t->tableName();
+        $trace['query_id'] = $t->tablePk();
+        $trace['query_by'] = $t->operatorId();
 
         try {
             $this->tracingTable()->connection()->transact();
             $query = $this->tracingTable()->insert($trace)->run();
 
             // if we delete a record, we remove all traces of update
-            if ($query->is_success() && $trace['query_type'] === self::CODE_DELETE) {
+            if ($query->is_success() && $t->isDelete()) {
                 $trace['query_type'] = self::CODE_UPDATE;
                 unset($trace['query_by']);
                 $this->tracingTable()->delete($trace)->run();

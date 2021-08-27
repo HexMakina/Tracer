@@ -14,10 +14,10 @@ interface TracerInterface
 
     public function tracingTable(): TableManipulationInterface;
 
-    public function trace(QueryInterface $q, $operator_id, $model_id): bool;
+    public function trace(Trace $trace): bool;
     public function traces($options = []): array;
 
-    public function queryCode($sql_statement): string;
+    // public function queryCode($sql_statement): string;
 
     // public function history($table_name, $table_pk, $sort='DESC') : array;
 }
