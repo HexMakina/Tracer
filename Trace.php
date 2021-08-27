@@ -42,7 +42,7 @@ class Trace
     }
 
 
-    public function queryCode($setter=null)
+    public function queryCode()
     {
       return $this->query_type;
     }
