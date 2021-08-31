@@ -7,8 +7,8 @@
 
 namespace HexMakina\Tracer;
 
-use HexMakina\Crudites\Interfaces\TableManipulationInterface;
-use HexMakina\Crudites\Interfaces\QueryInterface;
+use \HexMakina\Crudites\Interfaces\TableManipulationInterface;
+use \HexMakina\Crudites\Interfaces\QueryInterface;
 
 class Tracer implements TracerInterface
 {
