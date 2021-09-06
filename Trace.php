@@ -2,7 +2,10 @@
 
 namespace HexMakina\Tracer;
 
-class Trace
+use \HexMakina\Interfaces\Database\TracerInterface;
+use \HexMakina\Interfaces\Database\TraceInterface;
+
+class Trace implements TraceInterface
 {
     private $query_type;
     private $query_table;

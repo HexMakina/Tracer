@@ -7,8 +7,10 @@
 
 namespace HexMakina\Tracer;
 
-use \HexMakina\Crudites\Interfaces\TableManipulationInterface;
-use \HexMakina\Crudites\Interfaces\QueryInterface;
+use \HexMakina\Interfaces\Database\TableManipulationInterface;
+use \HexMakina\Interfaces\Database\QueryInterface;
+use \HexMakina\Interfaces\Database\TraceInterface;
+use \HexMakina\Interfaces\Database\TracerInterface;
 
 class Tracer implements TracerInterface
 {
@@ -24,7 +26,7 @@ class Tracer implements TracerInterface
         return $this->tracing_table;
     }
 
-    public function trace(Trace $t): bool
+    public function trace(TraceInterface $t): bool
     {
         $trace = [];
         $trace['query_type'] = $t->queryCode();
