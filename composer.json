@@ -4,8 +4,8 @@
     "type": "package",
     "require": {
         "php": ">=7.0",
-        "hexmakina/black-box": "0.0.*",
-        "hexmakina/crudites": "0.0.*"
+        "hexmakina/crudites": "0.0.*",
+        "hexmakina/black-box": "0.0.*"
     },
     "license": "mit",
     "authors": [
