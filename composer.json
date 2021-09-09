@@ -3,7 +3,7 @@
     "description": "SQL query logger",
     "type": "package",
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.1",
         "hexmakina/crudites": "0.0.*",
         "hexmakina/black-box": "0.0.*"
     },
