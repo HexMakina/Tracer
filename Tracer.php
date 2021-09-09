@@ -11,7 +11,7 @@ use \HexMakina\BlackBox\Database\DatabaseInterface;
 use \HexMakina\BlackBox\Database\TableManipulationInterface;
 use \HexMakina\BlackBox\Database\TraceInterface;
 
-class Tracer implements \HexMakina\BlackBox\Database\TracerInterface;
+class Tracer implements \HexMakina\BlackBox\Database\TracerInterface
 {
     private $tracing_table = null;
     private $database = null;
