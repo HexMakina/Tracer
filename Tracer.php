@@ -7,10 +7,10 @@
 
 namespace HexMakina\Tracer;
 
-use \HexMakina\Interfaces\Database\TableManipulationInterface;
-use \HexMakina\Interfaces\Database\QueryInterface;
-use \HexMakina\Interfaces\Database\TraceInterface;
-use \HexMakina\Interfaces\Database\TracerInterface;
+use \HexMakina\BlackBox\Database\TableManipulationInterface;
+use \HexMakina\BlackBox\Database\QueryInterface;
+use \HexMakina\BlackBox\Database\TraceInterface;
+use \HexMakina\BlackBox\Database\TracerInterface;
 
 class Tracer implements TracerInterface
 {

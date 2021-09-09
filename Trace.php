@@ -2,8 +2,8 @@
 
 namespace HexMakina\Tracer;
 
-use \HexMakina\Interfaces\Database\TracerInterface;
-use \HexMakina\Interfaces\Database\TraceInterface;
+use \HexMakina\BlackBox\Database\TracerInterface;
+use \HexMakina\BlackBox\Database\TraceInterface;
 
 class Trace implements TraceInterface
 {
