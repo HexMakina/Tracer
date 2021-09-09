@@ -68,13 +68,13 @@ class Tracer implements \HexMakina\BlackBox\Database\TracerInterface
           'GROUP_CONCAT(DISTINCT query_type, "-", query_by) as action_by'
         ];
         $q = $this->tracingTable()->select($select_fields);
-        $q->order_by(['', 'working_day', 'DESC']);
-        $q->order_by([$this->tracingTable()->name(), 'query_table', 'DESC']);
-        $q->order_by([$this->tracingTable()->name(), 'query_id', 'DESC']);
+        $q->orderBy(['', 'working_day', 'DESC']);
+        $q->orderBy([$this->tracingTable()->name(), 'query_table', 'DESC']);
+        $q->orderBy([$this->tracingTable()->name(), 'query_id', 'DESC']);
 
-        $q->group_by(['working_day']);
-        $q->group_by('query_table');
-        $q->group_by('query_id');
+        $q->groupBy(['working_day']);
+        $q->groupBy('query_table');
+        $q->groupBy('query_id');
         $q->having("action_by NOT LIKE '%D%'");
 
         $limit = 1000;
@@ -85,30 +85,30 @@ class Tracer implements \HexMakina\BlackBox\Database\TracerInterface
         $q->limit($limit);
 
         $this->filter($q, $options);
-        $res = $q->ret_num(); // ret num to list()
+        $res = $q->retNum(); // ret num to list()
         return $this->export($res);
     }
 
     private function filter($q, $options)
     {
         if (isset($options['on'])) {
-            $q->aw_like('query_on', $options['on'] . '%');
+            $q->whereLike('query_on', $options['on'] . '%');
         }
 
         if (isset($options['by'])) {
-            $q->aw_eq('query_by', $options['operator']);
+            $q->whereEQ('query_by', $options['operator']);
         }
 
         if (isset($options['pk'])) {
-            $q->aw_eq('query_id', $options['pk']);
+            $q->whereEQ('query_id', $options['pk']);
         }
 
         if (isset($options['table'])) {
-            $q->aw_eq('query_table', $options['table']);
+            $q->whereEQ('query_table', $options['table']);
         }
 
         if (isset($options['tables'])) {
-            $q->aw_string_in('query_table', $options['tables']);
+            $q->whereStringIn('query_table', $options['tables']);
         }
     }
 
