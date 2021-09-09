@@ -2,10 +2,7 @@
 
 namespace HexMakina\Tracer;
 
-use \HexMakina\BlackBox\Database\TracerInterface;
-use \HexMakina\BlackBox\Database\TraceInterface;
-
-class Trace implements TraceInterface
+class Trace implements \HexMakina\BlackBox\Database\TraceInterface
 {
     private $query_type;
     private $query_table;
@@ -15,33 +12,33 @@ class Trace implements TraceInterface
     public function isUpdate($setter=null)
     {
       if(is_bool($setter))
-        $this->query_type = TracerInterface::CODE_UPDATE;
+        $this->query_type = TraceInterface::CODE_UPDATE;
 
-      return $this->query_type === TracerInterface::CODE_UPDATE;
+      return $this->query_type === TraceInterface::CODE_UPDATE;
     }
 
     public function isDelete($setter=null)
     {
       if(is_bool($setter))
-        $this->query_type = TracerInterface::CODE_DELETE;
+        $this->query_type = TraceInterface::CODE_DELETE;
 
-      return $this->query_type === TracerInterface::CODE_DELETE;
+      return $this->query_type === TraceInterface::CODE_DELETE;
     }
 
     public function isInsert($setter=null)
     {
       if(is_bool($setter))
-        $this->query_type = TracerInterface::CODE_CREATE;
+        $this->query_type = TraceInterface::CODE_CREATE;
 
-      return $this->query_type === TracerInterface::CODE_CREATE;
+      return $this->query_type === TraceInterface::CODE_CREATE;
     }
 
     public function isSelect($setter=null)
     {
       if(is_bool($setter))
-        $this->query_type = TracerInterface::CODE_SELECT;
+        $this->query_type = TraceInterface::CODE_SELECT;
 
-      return $this->query_type === TracerInterface::CODE_SELECT;
+      return $this->query_type === TraceInterface::CODE_SELECT;
     }
 
 
