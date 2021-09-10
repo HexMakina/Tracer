@@ -7,9 +7,9 @@
 
 namespace HexMakina\Tracer;
 
-use \HexMakina\BlackBox\Database\DatabaseInterface;
-use \HexMakina\BlackBox\Database\TableManipulationInterface;
-use \HexMakina\BlackBox\Database\TraceInterface;
+use HexMakina\BlackBox\Database\DatabaseInterface;
+use HexMakina\BlackBox\Database\TableManipulationInterface;
+use HexMakina\BlackBox\Database\TraceInterface;
 
 class Tracer implements \HexMakina\BlackBox\Database\TracerInterface
 {
@@ -23,7 +23,7 @@ class Tracer implements \HexMakina\BlackBox\Database\TracerInterface
 
     public function setTracingTableName($table_name)
     {
-      $this->tracing_table = $this->database->inspect($table_name);
+        $this->tracing_table = $this->database->inspect($table_name);
     }
 
     public function tracingTable(): TableManipulationInterface

@@ -9,62 +9,69 @@ class Trace implements \HexMakina\BlackBox\Database\TraceInterface
     private $query_id;
     private $query_by;
 
-    public function isUpdate($setter=null)
+    public function isUpdate($setter = null)
     {
-      if(is_bool($setter))
-        $this->query_type = self::CODE_UPDATE;
+        if (is_bool($setter)) {
+            $this->query_type = self::CODE_UPDATE;
+        }
 
-      return $this->query_type === self::CODE_UPDATE;
+        return $this->query_type === self::CODE_UPDATE;
     }
 
-    public function isDelete($setter=null)
+    public function isDelete($setter = null)
     {
-      if(is_bool($setter))
-        $this->query_type = self::CODE_DELETE;
+        if (is_bool($setter)) {
+            $this->query_type = self::CODE_DELETE;
+        }
 
-      return $this->query_type === self::CODE_DELETE;
+        return $this->query_type === self::CODE_DELETE;
     }
 
-    public function isInsert($setter=null)
+    public function isInsert($setter = null)
     {
-      if(is_bool($setter))
-        $this->query_type = self::CODE_CREATE;
+        if (is_bool($setter)) {
+            $this->query_type = self::CODE_CREATE;
+        }
 
-      return $this->query_type === self::CODE_CREATE;
+        return $this->query_type === self::CODE_CREATE;
     }
 
-    public function isSelect($setter=null)
+    public function isSelect($setter = null)
     {
-      if(is_bool($setter))
-        $this->query_type = self::CODE_SELECT;
+        if (is_bool($setter)) {
+            $this->query_type = self::CODE_SELECT;
+        }
 
-      return $this->query_type === self::CODE_SELECT;
+        return $this->query_type === self::CODE_SELECT;
     }
 
 
     public function queryCode()
     {
-      return $this->query_type;
+        return $this->query_type;
     }
 
-    public function tableName($setter=null)
+    public function tableName($setter = null)
     {
-      if(!is_null($setter))
-        $this->query_table = $setter;
-      return $this->query_table;
+        if (!is_null($setter)) {
+            $this->query_table = $setter;
+        }
+        return $this->query_table;
     }
 
-    public function tablePk($setter=null)
+    public function tablePk($setter = null)
     {
-      if(!is_null($setter))
-        $this->query_id = $setter;
-      return $this->query_id;
+        if (!is_null($setter)) {
+            $this->query_id = $setter;
+        }
+        return $this->query_id;
     }
 
-    public function operatorId($setter=null)
+    public function operatorId($setter = null)
     {
-      if(!is_null($setter))
-        $this->query_by = $setter;
-      return $this->query_by;
+        if (!is_null($setter)) {
+            $this->query_by = $setter;
+        }
+        return $this->query_by;
     }
 }
