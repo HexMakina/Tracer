@@ -4,12 +4,12 @@ namespace HexMakina\Tracer;
 
 class Trace implements \HexMakina\BlackBox\Database\TraceInterface
 {
-    private $query_type;
-    private $query_table;
-    private $query_id;
-    private $query_by;
+    private string $query_type;
+    private string $query_table;
+    private string $query_id;
+    private string $query_by;
 
-    public function isUpdate($setter = null)
+    public function isUpdate(bool $setter = null) : bool
     {
         if (is_bool($setter)) {
             $this->query_type = self::CODE_UPDATE;
@@ -18,7 +18,7 @@ class Trace implements \HexMakina\BlackBox\Database\TraceInterface
         return $this->query_type === self::CODE_UPDATE;
     }
 
-    public function isDelete($setter = null)
+    public function isDelete(bool $setter = null) : bool
     {
         if (is_bool($setter)) {
             $this->query_type = self::CODE_DELETE;
@@ -27,7 +27,7 @@ class Trace implements \HexMakina\BlackBox\Database\TraceInterface
         return $this->query_type === self::CODE_DELETE;
     }
 
-    public function isInsert($setter = null)
+    public function isInsert(bool $setter = null) : bool
     {
         if (is_bool($setter)) {
             $this->query_type = self::CODE_CREATE;
@@ -36,7 +36,7 @@ class Trace implements \HexMakina\BlackBox\Database\TraceInterface
         return $this->query_type === self::CODE_CREATE;
     }
 
-    public function isSelect($setter = null)
+    public function isSelect(bool $setter = null) : bool
     {
         if (is_bool($setter)) {
             $this->query_type = self::CODE_SELECT;
@@ -46,12 +46,12 @@ class Trace implements \HexMakina\BlackBox\Database\TraceInterface
     }
 
 
-    public function queryCode()
+    public function queryCode() : string
     {
         return $this->query_type;
     }
 
-    public function tableName($setter = null)
+    public function tableName(string $setter = null) : string
     {
         if (!is_null($setter)) {
             $this->query_table = $setter;
@@ -59,7 +59,7 @@ class Trace implements \HexMakina\BlackBox\Database\TraceInterface
         return $this->query_table;
     }
 
-    public function tablePk($setter = null)
+    public function tablePk(string $setter = null) : string
     {
         if (!is_null($setter)) {
             $this->query_id = $setter;
@@ -67,7 +67,7 @@ class Trace implements \HexMakina\BlackBox\Database\TraceInterface
         return $this->query_id;
     }
 
-    public function operatorId($setter = null)
+    public function operatorId(string $setter = null) : string
     {
         if (!is_null($setter)) {
             $this->query_by = $setter;
