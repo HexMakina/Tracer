@@ -7,21 +7,22 @@
 
 namespace HexMakina\Tracer;
 
-use HexMakina\BlackBox\Database\DatabaseInterface;
-use HexMakina\BlackBox\Database\TableManipulationInterface;
-use HexMakina\BlackBox\Database\TraceInterface;
+use HexMakina\BlackBox\Database\{DatabaseInterface
+                                ,TableManipulationInterface
+                                ,TraceInterface
+                                ,SelectInterface};
 
 class Tracer implements \HexMakina\BlackBox\Database\TracerInterface
 {
-    private $tracing_table = null;
-    private $database = null;
+    private DatabaseInterface $database;
+    private TableManipulationInterface $tracing_table;
 
     public function __construct(DatabaseInterface $database)
     {
         $this->database = $database;
     }
 
-    public function setTracingTableName($table_name)
+    public function setTracingTableName(string $table_name) : void
     {
         $this->tracing_table = $this->database->inspect($table_name);
     }
@@ -45,7 +46,7 @@ class Tracer implements \HexMakina\BlackBox\Database\TracerInterface
 
             // if we delete a record, we remove all traces of update
             if ($query->isSuccess() && $t->isDelete()) {
-                $trace['query_type'] = self::CODE_UPDATE;
+                $trace['query_type'] = Trace::CODE_UPDATE;
                 unset($trace['query_by']);
                 $this->tracingTable()->delete($trace)->run();
             }
@@ -57,8 +58,11 @@ class Tracer implements \HexMakina\BlackBox\Database\TracerInterface
         }
     }
 
-
-    public function traces($options = []): array
+    /**
+     * @param array<string, mixed> $options
+     * @return array<array>
+     */
+    public function traces(array $options = []): array
     {
         // TODO SELECT field order can't change without adapting the result parsing code (foreach $res)
         $select_fields = [
@@ -88,8 +92,10 @@ class Tracer implements \HexMakina\BlackBox\Database\TracerInterface
         $res = $q->retNum(); // ret num to list()
         return $this->export($res);
     }
-
-    private function filter($q, $options)
+    /**
+     * @param array<string, mixed> $options
+     */
+    private function filter(SelectInterface $q, array $options) : void
     {
         if (isset($options['on'])) {
             $q->whereLike('query_on', $options['on'] . '%');
@@ -111,8 +117,11 @@ class Tracer implements \HexMakina\BlackBox\Database\TracerInterface
             $q->whereStringIn('query_table', $options['tables']);
         }
     }
-
-    private function export($res)
+    /**
+     * @param array<array> $res
+     * @return array<array>
+     */
+    private function export($res) : array
     {
         $ret = [];
 
