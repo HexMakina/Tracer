@@ -53,7 +53,7 @@ class Trace implements \HexMakina\BlackBox\Database\TraceInterface
 
     public function tableName(string $setter = null) : string
     {
-        if (!is_null($setter)) {
+        if ($setter !== null) {
             $this->query_table = $setter;
         }
         return $this->query_table;
@@ -61,7 +61,7 @@ class Trace implements \HexMakina\BlackBox\Database\TraceInterface
 
     public function tablePk(string $setter = null) : string
     {
-        if (!is_null($setter)) {
+        if ($setter !== null) {
             $this->query_id = $setter;
         }
         return $this->query_id;
@@ -69,7 +69,7 @@ class Trace implements \HexMakina\BlackBox\Database\TraceInterface
 
     public function operatorId(string $setter = null) : string
     {
-        if (!is_null($setter)) {
+        if ($setter !== null) {
             $this->query_by = $setter;
         }
         return $this->query_by;
