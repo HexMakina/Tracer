@@ -7,24 +7,24 @@
 
 namespace HexMakina\Tracer;
 
-use HexMakina\BlackBox\Database\{DatabaseInterface
+use HexMakina\BlackBox\Database\{ConnectionInterface
                                 ,TableManipulationInterface
                                 ,TraceInterface
                                 ,SelectInterface};
 
 class Tracer implements \HexMakina\BlackBox\Database\TracerInterface
 {
-    private DatabaseInterface $database;
+    private ConnectionInterface $connection;
     private TableManipulationInterface $tracing_table;
 
-    public function __construct(DatabaseInterface $database)
+    public function __construct(ConnectionInterface $connection)
     {
-        $this->database = $database;
+        $this->connection = $connection;
     }
 
     public function setTracingTableName(string $table_name) : void
     {
-        $this->tracing_table = $this->database->inspect($table_name);
+        $this->tracing_table = $this->connection->schema()->table($table_name);
     }
 
     public function tracingTable(): TableManipulationInterface
